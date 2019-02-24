@@ -16,7 +16,7 @@ services:
   db:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: sample
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db-volume:/var/lib/mysql
