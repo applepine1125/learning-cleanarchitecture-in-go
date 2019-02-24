@@ -1,0 +1,28 @@
+version: '2'
+services:
+  app:
+    image: golang:1.11.5-alpine
+    environment:
+      MYAPP_DATABASE_HOST: db
+    command: "go run server.go"
+    volumes:
+      - ./src:/go/src
+    working_dir: /go/src
+    ports:
+      - "8080:8080"
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - db-volume:/var/lib/mysql
+      - ./migration:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+  
+volumes:
+  db-volume:
