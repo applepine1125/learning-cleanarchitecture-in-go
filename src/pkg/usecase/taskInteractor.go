@@ -18,12 +18,12 @@ func (ti *TaskInteractor) Add(t domain.Task) error {
 func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 	task, err := ti.taskRepo.FindById(id)
 	if err != nil {
-		return nil, err
+		return domain.Task{}, err
 	}
 
 	user, err := ti.userRepo.FindById(task.UserID)
 	if err != nil {
-		return nil, err
+		return domain.Task{}, err
 	}
 
 	task.UserFullName = user.GetFullName()
@@ -48,7 +48,7 @@ func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
 			return nil, fmt.Errorf("user(ID:%d) not found", task.UserID)
 		}
 
-		task.UserFullName = user.getFullName()
+		task.UserFullName = user.GetFullName()
 	}
 
 	return tasks, nil

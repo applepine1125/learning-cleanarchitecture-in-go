@@ -18,7 +18,7 @@ func TestGetFullName(t *testing.T) {
 
 func TestIsEmpty(t *testing.T) {
 	testcases := []struct {
-		id        int64
+		id        int
 		firstName string
 		lastName  string
 		expected  bool
@@ -44,7 +44,7 @@ func TestFindById(t *testing.T) {
 	}
 
 	testcases := []struct {
-		id       int64
+		id       int
 		expected User
 	}{
 		{1, User{1, "john", "brown"}},

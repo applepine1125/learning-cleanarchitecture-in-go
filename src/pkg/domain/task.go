@@ -1,9 +1,10 @@
 package domain
 
 type Tasks []Task
+
 type Task struct {
-	ID           int64
-	UserID       int64
+	ID           int
+	UserID       int
 	UserFullName string
 	Title        string
 	Description  string
