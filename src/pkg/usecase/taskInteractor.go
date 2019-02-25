@@ -8,7 +8,7 @@ type TaskInteractor struct {
 }
 
 func (ti *TaskInteractor) Add(t domain.Task) error {
-	return ti.userRepo.Store(t)
+	return ti.taskRepo.Store(t)
 }
 
 func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
@@ -28,5 +28,5 @@ func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 }
 
 func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
-	return ti.userRepo.FindAll()
+	return ti.taskRepo.FindAll()
 }

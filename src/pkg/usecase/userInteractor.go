@@ -11,7 +11,7 @@ func (ui *UserInteractor) Add(u domain.User) error {
 }
 
 func (ui *UserInteractor) FindById(id int) (domain.User, error) {
-	return ui.FindById(id)
+	return ui.userRepo.FindById(id)
 }
 
 func (ui *UserInteractor) FindAll() (domain.Users, error) {
