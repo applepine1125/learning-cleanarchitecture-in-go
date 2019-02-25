@@ -1,6 +1,10 @@
 package usecase
 
-import "github.com/applepine1125/learning-cleanarchitecture-in-go/src/pkg/domain"
+import (
+	"fmt"
+
+	"github.com/applepine1125/learning-cleanarchitecture-in-go/src/pkg/domain"
+)
 
 type TaskInteractor struct {
 	userRepo UserRepository
@@ -22,11 +26,30 @@ func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 		return nil, err
 	}
 
-	task.UserFullName = user.getFullName()
+	task.UserFullName = user.GetFullName()
 
 	return task, nil
 }
 
 func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
-	return ti.taskRepo.FindAll()
+	tasks, err := ti.taskRepo.FindAll()
+	if err != nil {
+		return nil, err
+	}
+
+	users, err := ti.userRepo.FindAll()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, task := range tasks {
+		user := users.FindById(task.UserID)
+		if user.IsEmpty() {
+			return nil, fmt.Errorf("user(ID:%d) not found", task.UserID)
+		}
+
+		task.UserFullName = user.getFullName()
+	}
+
+	return tasks, nil
 }
