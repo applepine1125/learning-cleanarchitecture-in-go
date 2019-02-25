@@ -8,5 +8,4 @@ type Task struct {
 	UserFullName string
 	Title        string
 	Description  string
-	Date         string
 }

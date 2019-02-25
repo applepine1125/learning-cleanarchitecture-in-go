@@ -7,5 +7,4 @@ type Task struct {
 	UserID      int
 	Title       string
 	Description string
-	TimeStamp   int
 }
