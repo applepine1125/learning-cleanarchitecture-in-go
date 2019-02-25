@@ -1,6 +1,7 @@
 package domain
 
-type tasks struct {
+type Tasks []Task
+type Task struct {
 	ID          int64
 	UserID      int64
 	Title       string
