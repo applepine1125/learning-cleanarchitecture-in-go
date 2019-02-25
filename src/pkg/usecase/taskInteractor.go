@@ -11,8 +11,9 @@ type TaskInteractor struct {
 	taskRepo TaskRepository
 }
 
-func (ti *TaskInteractor) Add(t domain.Task) error {
-	return ti.taskRepo.Store(t)
+func (ti *TaskInteractor) Add(dt domain.Task) error {
+	task := Task{dt.ID, dt.UserID, dt.Title, dt.Description}
+	return ti.taskRepo.Store(task)
 }
 
 func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
@@ -26,9 +27,15 @@ func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 		return domain.Task{}, err
 	}
 
-	task.UserFullName = user.GetFullName()
+	domainTask := domain.Task{
+		ID:           task.ID,
+		UserID:       task.UserID,
+		UserFullName: user.GetFullName(),
+		Title:        task.Title,
+		Description:  task.Description,
+	}
 
-	return task, nil
+	return domainTask, nil
 }
 
 func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
@@ -42,14 +49,23 @@ func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
 		return nil, err
 	}
 
+	domainTasks := domain.Tasks{}
 	for _, task := range tasks {
 		user := users.FindById(task.UserID)
 		if user.IsEmpty() {
 			return nil, fmt.Errorf("user(ID:%d) not found", task.UserID)
 		}
 
-		task.UserFullName = user.GetFullName()
+		domainTask := domain.Task{
+			ID:           task.ID,
+			UserID:       task.UserID,
+			UserFullName: user.GetFullName(),
+			Title:        task.Title,
+			Description:  task.Description,
+		}
+
+		domainTasks = append(domainTasks, domainTask)
 	}
 
-	return tasks, nil
+	return domainTasks, nil
 }
