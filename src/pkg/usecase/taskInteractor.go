@@ -27,13 +27,7 @@ func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 		return domain.Task{}, err
 	}
 
-	domainTask := domain.Task{
-		ID:           task.ID,
-		UserID:       task.UserID,
-		UserFullName: user.GetFullName(),
-		Title:        task.Title,
-		Description:  task.Description,
-	}
+	domainTask := convertToDomainTask(task, user.GetFullName())
 
 	return domainTask, nil
 }
@@ -56,16 +50,20 @@ func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
 			return nil, fmt.Errorf("user(ID:%d) not found", task.UserID)
 		}
 
-		domainTask := domain.Task{
-			ID:           task.ID,
-			UserID:       task.UserID,
-			UserFullName: user.GetFullName(),
-			Title:        task.Title,
-			Description:  task.Description,
-		}
-
+		domainTask := convertToDomainTask(task, user.GetFullName())
 		domainTasks = append(domainTasks, domainTask)
 	}
 
 	return domainTasks, nil
+}
+
+func convertToDomainTask(task Task, fullName string) domain.Task {
+	return domain.Task{
+		ID:           task.ID,
+		UserID:       task.UserID,
+		UserFullName: fullName,
+		Title:        task.Title,
+		Description:  task.Description,
+	}
+
 }
