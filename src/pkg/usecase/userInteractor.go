@@ -3,8 +3,7 @@ package usecase
 import "github.com/applepine1125/learning-cleanarchitecture-in-go/src/pkg/domain"
 
 type UserInteractor struct {
-	userRepo Userrepository
-	taskRepo TaskRepository
+	userRepo UserRepository
 }
 
 func (ui *UserInteractor) Add(u domain.User) error {
