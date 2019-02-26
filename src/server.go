@@ -1,14 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-)
+import "github.com/applepine1125/learning-cleanarchitecture-in-go/src/pkg/infra"
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello world")
-	})
-
-	http.ListenAndServe(":8080", nil)
+	infra.Router.Run()
 }
