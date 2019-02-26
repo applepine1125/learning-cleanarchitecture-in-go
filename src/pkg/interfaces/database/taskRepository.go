@@ -25,7 +25,7 @@ func (repo *TaskRepository) FindById(id int) (task usecase.Task, err error) {
 	row, err := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
 	row.Scan(&userid, &title, &description)
 	if err != nil {
-		return usecase.Task{}, err
+		return task, err
 	}
 
 	task.ID = id
@@ -39,7 +39,7 @@ func (repo *TaskRepository) FindAll() (tasks usecase.Tasks, err error) {
 	rows, err := repo.Query("SELECT * FROM tasks")
 	defer rows.Close()
 	if err != nil {
-		return usecase.Tasks{}, err
+		return tasks, err
 	}
 
 	for rows.Next() {
