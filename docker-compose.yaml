@@ -6,8 +6,8 @@ services:
       MYAPP_DATABASE_HOST: db
     command: "go run server.go"
     volumes:
-      - ./src:/go/src
-    working_dir: /go/src
+      - ./src:/go/src/github.com/applepine1125/learning-cleanarchitecture-in-go/src
+    working_dir: /go/src/github.com/applepine1125/learning-cleanarchitecture-in-go/src
     ports:
       - "8080:8080"
     links:

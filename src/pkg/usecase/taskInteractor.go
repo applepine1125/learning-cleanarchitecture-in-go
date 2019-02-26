@@ -17,14 +17,14 @@ func (ti *TaskInteractor) Add(dt domain.Task) error {
 }
 
 func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
-	task, err := ti.taskRepo.FindById(id)
-	if err != nil {
-		return domain.Task{}, err
+	task := ti.taskRepo.FindById(id)
+	if task.IsEmpty() {
+		return domain.Task{}, fmt.Errorf("task not found")
 	}
 
-	user, err := ti.userRepo.FindById(task.UserID)
-	if err != nil {
-		return domain.Task{}, err
+	user := ti.userRepo.FindById(task.UserID)
+	if user.IsEmpty() {
+		return domain.Task{}, fmt.Errorf("user not found")
 	}
 
 	domainTask := convertToDomainTask(task, user.GetFullName())

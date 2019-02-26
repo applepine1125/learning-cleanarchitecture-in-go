@@ -16,7 +16,7 @@ func NewSqlHandler() database.SqlHandler {
 	if err != nil {
 		panic(err.Error)
 	}
-	return SqlHandler{Conn: conn}
+	return &SqlHandler{Conn: conn}
 }
 
 func (handler *SqlHandler) Exec(statement string, args ...interface{}) error {

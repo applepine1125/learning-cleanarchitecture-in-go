@@ -36,9 +36,9 @@ func (controller *UserController) Create(c Context) {
 
 func (controller *UserController) GetUser(c Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user, err := controller.Interactor.FindById(id)
-	if err != nil {
-		c.JSON(500, fmt.Errorf(err.Error()))
+	user := controller.Interactor.FindById(id)
+	if user.IsEmpty() {
+		c.JSON(500, fmt.Errorf("user not found"))
 		return
 	}
 	c.JSON(200, user)

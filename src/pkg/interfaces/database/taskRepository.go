@@ -17,22 +17,19 @@ func (repo *TaskRepository) Store(t usecase.Task) error {
 	return nil
 }
 
-func (repo *TaskRepository) FindById(id int) (task usecase.Task, err error) {
+func (repo *TaskRepository) FindById(id int) (task usecase.Task) {
 	var userid int
 	var title string
 	var description string
 
-	row, err := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
+	row := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
 	row.Scan(&userid, &title, &description)
-	if err != nil {
-		return task, err
-	}
 
 	task.ID = id
 	task.UserID = userid
 	task.Title = title
 	task.Description = description
-	return task, nil
+	return task
 }
 
 func (repo *TaskRepository) FindAll() (tasks usecase.Tasks, err error) {

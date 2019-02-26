@@ -17,20 +17,17 @@ func (repo *UserRepository) Store(u domain.User) error {
 	return nil
 }
 
-func (repo *UserRepository) FindById(id int) (user domain.User, err error) {
+func (repo *UserRepository) FindById(id int) (user domain.User) {
 	var firstname string
 	var lastname string
 
-	row, err := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
-	if err != nil {
-		return user, err
-	}
+	row := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
 	row.Scan(&firstname, &lastname)
 
 	user.ID = id
 	user.FirstName = firstname
 	user.LastName = lastname
-	return user, nil
+	return user
 }
 
 func (repo *UserRepository) FindAll() (users domain.Users, err error) {

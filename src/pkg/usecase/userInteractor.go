@@ -10,7 +10,7 @@ func (ui *UserInteractor) Add(u domain.User) error {
 	return ui.UserRepo.Store(u)
 }
 
-func (ui *UserInteractor) FindById(id int) (domain.User, error) {
+func (ui *UserInteractor) FindById(id int) domain.User {
 	return ui.UserRepo.FindById(id)
 }
 
