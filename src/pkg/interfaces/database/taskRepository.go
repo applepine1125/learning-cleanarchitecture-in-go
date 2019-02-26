@@ -17,35 +17,31 @@ func (repo *TaskRepository) Store(t usecase.Task) error {
 	return nil
 }
 
-func (repo *TaskRepository) FindById(id int) (usecase.Task, error) {
-	var id int
+func (repo *TaskRepository) FindById(id int) (task usecase.Task, err error) {
 	var userid int
 	var title string
 	var description string
 
-	row, err := repo.QueryRow("SELECT * FROM users WHERE id = ?", id).Scan(&id, &userid, &title, &description)
-	defer row.Close()
+	row, err := repo.QueryRow("SELECT * FROM users WHERE id = ?", id)
+	row.Scan(&userid, &title, &description)
 	if err != nil {
-		return
+		return usecase.Task{}, err
 	}
-
-	task := usecase.Task{}
 
 	task.ID = id
 	task.UserID = userid
 	task.Title = title
 	task.Description = description
-	return task
+	return task, nil
 }
 
-func (repo *TaskRepository) FindAll() (usecase.Task, error) {
+func (repo *TaskRepository) FindAll() (tasks usecase.Tasks, err error) {
 	rows, err := repo.Query("SELECT * FROM tasks")
 	defer rows.Close()
 	if err != nil {
-		return err
+		return usecase.Tasks{}, err
 	}
 
-	tasks := usecase.Tasks{}
 	for rows.Next() {
 		var id int
 		var userid int
@@ -60,7 +56,7 @@ func (repo *TaskRepository) FindAll() (usecase.Task, error) {
 			Title:       title,
 			Description: description,
 		}
-		tasks = append(tasks, *task)
+		tasks = append(tasks, task)
 	}
-	return tasks
+	return tasks, nil
 }
