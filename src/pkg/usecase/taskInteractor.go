@@ -7,22 +7,22 @@ import (
 )
 
 type TaskInteractor struct {
-	userRepo UserRepository
-	taskRepo TaskRepository
+	UserRepo UserRepository
+	TaskRepo TaskRepository
 }
 
 func (ti *TaskInteractor) Add(dt domain.Task) error {
 	task := Task{dt.ID, dt.UserID, dt.Title, dt.Description}
-	return ti.taskRepo.Store(task)
+	return ti.TaskRepo.Store(task)
 }
 
 func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
-	task := ti.taskRepo.FindById(id)
+	task := ti.TaskRepo.FindById(id)
 	if task.IsEmpty() {
 		return domain.Task{}, fmt.Errorf("task not found")
 	}
 
-	user := ti.userRepo.FindById(task.UserID)
+	user := ti.UserRepo.FindById(task.UserID)
 	if user.IsEmpty() {
 		return domain.Task{}, fmt.Errorf("user not found")
 	}
@@ -33,12 +33,12 @@ func (ti *TaskInteractor) FindById(id int) (domain.Task, error) {
 }
 
 func (ti *TaskInteractor) FindAll() (domain.Tasks, error) {
-	tasks, err := ti.taskRepo.FindAll()
+	tasks, err := ti.TaskRepo.FindAll()
 	if err != nil {
 		return nil, err
 	}
 
-	users, err := ti.userRepo.FindAll()
+	users, err := ti.UserRepo.FindAll()
 	if err != nil {
 		return nil, err
 	}
